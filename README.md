@@ -2,8 +2,6 @@
 
 This is the python code to extract the top-n dictionary from the bilingual alignment information(Pharaoh format) which is extracted from fastalign or GIZA++.
 
----
-
 
 # Toy test
 
@@ -16,7 +14,7 @@ output :
 
 Top-n dictionary
 
-'''
+```
 In [2]: from Test import ExtractDict
 
 In [3]: extractdict = ExtractDict("./test_data/test.src", "./test_data/test.tgt", "./test_data/test.src-tgt.align", N=5, n_best=3)
@@ -63,5 +61,5 @@ defaultdict(None,
              '‘': ['&quot;'],
              '’': ['&quot;'],
              '해': ['will']})
-'''
+```
 
