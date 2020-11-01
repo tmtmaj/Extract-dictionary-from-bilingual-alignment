@@ -17,8 +17,8 @@ class ExtractDict:
       tgt_list = tgt_f.readlines()
       tgt_f.close()
 
-    # src_list: source sentence list (i.e. ['올해 87 차 를 맞은 sc@@ e 수련 회 는 매년 전국 교회 에서 다음 세대 성도 들 이 한자리 에 모이는 여름철 대표 신앙 축제 다 .\n', ..., ])
-    # tgt_list: target sentence list (i.e. ['the s@@ ce retreat , which marks its 8@@ 7th anniversary this year , is a major summer religious festival where the next generation of believers gather in churches across the country every year .\n', ..., ])
+    # src_list: source sentence list (e.g. ['올해 87 차 를 맞은 sc@@ e 수련 회 는 매년 전국 교회 에서 다음 세대 성도 들 이 한자리 에 모이는 여름철 대표 신앙 축제 다 .\n', ..., ])
+    # tgt_list: target sentence list (e.g. ['the s@@ ce retreat , which marks its 8@@ 7th anniversary this year , is a major summer religious festival where the next generation of believers gather in churches across the country every year .\n', ..., ])
     # align_list: alignment list (i.e ['23-16 0-12 4-10 22-17 4-6 14-22 11-29 15-23 24-18 5-1 1-9 5-2 1-8 11-31 12-28 10-33 10-32 27-34 4-5 21-20 0-11 16-25 13-27 25-19 7-3 4-7 21-26\n', ..., ])
     # N: the number of words that appear frequently in the source dictionary
     # n_best: the number of corresponding target words of each source word in the dictionary
@@ -33,8 +33,8 @@ class ExtractDict:
 
 
   def prepro_align(self, align_list):
-    # input: Pharaoh format bilingual alignment from GIZA++ or fastalign (i.e. ['23-16 0-12 4-10 22-17 4-6 14-22 11-29 15-23 24-1 ...', ...])
-    # output: list of tuple (i.e. [[(23, 16), (0, 12), (4, 10), (22, 17), ..., (1, 9), (5, 2)], ..., [(5, 1), (1, 9), (5, 2), ..., (3,4), (32, 3)]])
+    # input: Pharaoh format bilingual alignment from GIZA++ or fastalign (e.g. ['23-16 0-12 4-10 22-17 4-6 14-22 11-29 15-23 24-1 ...', ...])
+    # output: list of tuple (e.g. [[(23, 16), (0, 12), (4, 10), (22, 17), ..., (1, 9), (5, 2)], ..., [(5, 1), (1, 9), (5, 2), ..., (3,4), (32, 3)]])
     output = []
     
     for align in align_list:
@@ -51,10 +51,10 @@ class ExtractDict:
 
   def line_dict(self, prepro_align, src_token, tgt_token):
     # input: 
-    # 1. prepro_alignment list (i.e. [[(23, 16), (0, 12), (4, 10), (22, 17), ..., (1, 9), (5, 2)], ..., [(5, 1), (1, 9), (5, 2), ..., (3,4), (32, 3)]])
-    # 2. tokenized source sentence list (i.e. [['올해', '87', '차', '를', '맞은', 'sc@@', 'e', '수련', '회', '는', '매년', '전국', '교회', '에서', '다음', '세대', '성도', '들', '이', '한자리', '에', '모이는', '여름철', '대표', '신앙', '축제', '다', '.'], ...] )
-    # 3. tokenized target sentence list (i.e. ['the', 's@@', 'ce', 'retreat', ',', 'which', 'marks', 'its', '8@@', '7th', 'anniversary', 'this', 'year', ',', 'is', 'a', 'major', 'summer', 'religious', 'festival', 'where', 'the', 'next', 'generation', 'of', 'believers', 'gather', 'in', 'churches', 'across', 'the', 'country', 'every', 'year', '.'], ...] )
-    # output: list of per-line dictionary (i.e. [defaultdict(list, {'.': ['.'], '87': ['7th', '8@@'], 'sc@@': ['s@@', 'ce'], ...}), ..., defaultdict...] )
+    # 1. prepro_alignment list (e.g. [[(23, 16), (0, 12), (4, 10), (22, 17), ..., (1, 9), (5, 2)], ..., [(5, 1), (1, 9), (5, 2), ..., (3,4), (32, 3)]])
+    # 2. tokenized source sentence list (e.g. [['올해', '87', '차', '를', '맞은', 'sc@@', 'e', '수련', '회', '는', '매년', '전국', '교회', '에서', '다음', '세대', '성도', '들', '이', '한자리', '에', '모이는', '여름철', '대표', '신앙', '축제', '다', '.'], ...] )
+    # 3. tokenized target sentence list (e.g. ['the', 's@@', 'ce', 'retreat', ',', 'which', 'marks', 'its', '8@@', '7th', 'anniversary', 'this', 'year', ',', 'is', 'a', 'major', 'summer', 'religious', 'festival', 'where', 'the', 'next', 'generation', 'of', 'believers', 'gather', 'in', 'churches', 'across', 'the', 'country', 'every', 'year', '.'], ...] )
+    # output: list of per-line dictionary (e.g. [defaultdict(list, {'.': ['.'], '87': ['7th', '8@@'], 'sc@@': ['s@@', 'ce'], ...}), ..., defaultdict...] )
     line_dict = []
 
     for a, s, t in zip(prepro_align, src_token, tgt_token):
